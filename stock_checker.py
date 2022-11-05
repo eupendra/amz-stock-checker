@@ -1,19 +1,14 @@
-import base64
 import logging
-import mimetypes
-import os
 import smtplib
 import webbrowser
-from email.mime.base import MIMEBase
-from email.mime.image import MIMEImage
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+import os
 
 import scraper_helper as helper
 import scrapy
-from scrapy.utils.response import open_in_browser
 
-asins = ['']
+logging.basicConfig(filename='amz.log',level=logging.INFO)
+
+asins = ['B07NF6J8N5']
 base_url = 'https://www.amazon.in/gp/product/{}/ref=ox_sc_saved_image_3?smid=&th=1'
 
 
@@ -82,9 +77,9 @@ def send_mail(subject, body):
             smtp.login(USER, PASS)
             subject_and_message = f"Subject:{subject}\n\n{body}"
             smtp.sendmail(USER, USER, subject_and_message)
-            print('Mail sent.')
+            logging.info('Mail sent.')
     except Exception as e:
-        print(f'An error occurred: {str(e)}')
+        logging.error(f'An error occurred: {str(e)}')
 
 
 if __name__ =='__main__':
